@@ -12,11 +12,9 @@ import numpy as np
 import torch
 
 from .vendor.ddcolor.model import DDColor
+from .model_artifact import MODEL_ID, MODEL_REVISION, MODEL_SHA256
 
 
-MODEL_ID = "piddnad/ddcolor_paper_tiny"
-MODEL_REVISION = "fa6a961"
-MODEL_SHA256 = "8a1277bc90a1bfbb6d2d83933a9a6bc821931879ca93e26e4fcec12165d41fce"
 DEFAULT_INPUT_SIZE = 512
 
 
