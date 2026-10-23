@@ -44,9 +44,14 @@ def load_ddcolor(checkpoint_path, device="cpu", input_size=DEFAULT_INPUT_SIZE):
             f"{MODEL_ID} checkpoint using the README setup steps."
         )
 
-    # The Hub's pickle scan reports only tensor storage and OrderedDict imports.
+    # Load tensor storage lazily from the checkpoint, then assign those exact
+    # tensors to the model. This avoids holding a second 220 MB copy during
+    # startup on memory-constrained CPU hosts. The official checkpoint is a
+    # seekable local file, and mmap/assign are supported by our PyTorch minimum.
     # weights_only=True blocks arbitrary pickle globals while loading tensors.
-    state_dict = torch.load(path, map_location="cpu", weights_only=True)
+    state_dict = torch.load(
+        path, map_location="cpu", weights_only=True, mmap=True
+    )
     if not isinstance(state_dict, dict) or not state_dict:
         raise ValueError("DDColor checkpoint must be a non-empty state dictionary.")
     if not all(isinstance(key, str) and isinstance(value, torch.Tensor)
@@ -54,7 +59,8 @@ def load_ddcolor(checkpoint_path, device="cpu", input_size=DEFAULT_INPUT_SIZE):
         raise ValueError("DDColor checkpoint contains non-tensor state entries.")
 
     model = build_ddcolor(input_size)
-    model.load_state_dict(state_dict, strict=True)
+    model.load_state_dict(state_dict, strict=True, assign=True)
+    del state_dict
     model.eval().to(device)
     return model
 
