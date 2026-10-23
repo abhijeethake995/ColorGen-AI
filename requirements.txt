@@ -1,0 +1,8 @@
+Flask>=3.0,<4
+gunicorn>=22,<24
+python-dotenv>=1,<2
+numpy>=1.26,<2.3; python_version < "3.14"
+numpy>=2.3,<3; python_version >= "3.14"
+Pillow>=10.2,<12
+opencv-python-headless>=4.9,<5
+torch>=2.2

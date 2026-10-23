@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0B0B12">
+  <meta name="description" content="ColorGen AI predicts plausible colors for grayscale photographs. Bring a new perspective to your old photos.">
+  <title>ColorGen AI — A new point of view</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/script.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="ColorGen AI home"><span class="brand-mark" aria-hidden="true">✳</span><span>ColorGen <span class="brand-light">AI</span></span></a>
+    <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#workspace">Color studio</a></nav>
+    <a class="button button-small button-dark" href="#workspace">Bring a photo to life <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="home">
+    <section class="hero wrap" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> A FRESH PERSPECTIVE ON YOUR PHOTOS</p>
+        <h1 id="heroTitle">Bring black-and-white photos <em>back to color.</em></h1>
+        <p class="hero-lede">ColorGen AI imagines a palette for grayscale photographs, giving familiar moments a vivid new perspective.</p>
+        <a class="button button-primary" href="#workspace">Colorize a photograph <span aria-hidden="true">↓</span></a>
+        <p class="hero-note"><span aria-hidden="true">✦</span> Color is an interpretation. The original tones remain yours.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-halo"></div>
+        <div class="art-photo art-photo-back"><div class="photo-texture texture-back"></div></div>
+        <div class="art-photo art-photo-front"><div class="photo-texture texture-front"><span class="sun"></span><span class="horizon"></span><span class="hill hill-one"></span><span class="hill hill-two"></span></div><span class="art-stamp">A MEMORY, REIMAGINED</span></div>
+        <div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✳</div>
+      </div>
+    </section>
+
+    <section class="workspace-section" id="workspace" aria-labelledby="workspaceTitle">
+      <div class="wrap workspace-wrap">
+        <div class="section-heading">
+          <div><p class="eyebrow">YOUR COLOR STUDIO</p><h2 id="workspaceTitle">A little color, a new memory.</h2></div>
+          <p>Start with a photograph.<br><span>See what a new palette can reveal.</span></p>
+        </div>
+        <div class="studio-card">
+          <div class="studio-top"><div class="step-label"><span class="step-number">01</span><span>Choose your photograph</span></div><span class="format-note">JPG, PNG, WebP, BMP, TIFF and GIF · up to 12 MB</span></div>
+          <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff,image/gif,.jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.gif" hidden>
+          <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Choose or drop an image">
+            <div class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></svg></div>
+            <h3>Drop a photograph here</h3><p>or <button id="browseButton" class="inline-button" type="button">choose a file</button> from your device</p>
+            <span class="dropzone-hint">A clear photo works beautifully. Animated GIF and WebP files use their first frame.</span>
+          </div>
+          <div id="selectedPanel" class="selected-panel" hidden>
+            <div class="selected-preview"><img id="originalPreview" alt="Selected image preview"><span id="previewFallback" hidden>Preview unavailable in browser</span></div>
+            <div class="file-meta"><span class="eyebrow">READY FOR A NEW PALETTE</span><strong id="fileName">—</strong><span id="fileDimensions">—</span></div>
+            <button id="removeButton" class="icon-button" type="button" aria-label="Remove selected image">×</button>
+          </div>
+          <div id="errorBox" class="error-box" role="alert" hidden></div>
+          <div class="studio-bottom"><p class="privacy-note"><span aria-hidden="true">✦</span> Your photo is processed for this request and not stored.</p><button id="colorizeButton" class="button button-dark" type="button" disabled>Colorize photo <span aria-hidden="true">→</span></button></div>
+          <div id="progressPanel" class="progress-panel" aria-live="polite" hidden><span class="loader" aria-hidden="true"></span><span><b>Finding a palette for your photo</b><small>ColorGen AI is working on your image…</small></span></div>
+          <div id="modelNotice" class="model-notice" role="status" hidden></div>
+
+          <section id="results" class="results" hidden aria-labelledby="resultTitle">
+            <div class="result-heading"><div><span class="eyebrow">A NEW PERSPECTIVE</span><h3 id="resultTitle">Your colorized photograph</h3></div><div class="result-meta"><span id="outputDimensions" class="time-pill"></span><span id="inferenceTime" class="time-pill"></span></div></div>
+            <div id="viewControls" class="view-controls" role="group" aria-label="Choose image comparison layout"><button class="view-toggle active" data-view="compare" type="button" aria-pressed="true">Compare</button><button class="view-toggle" data-view="side" type="button" aria-pressed="false">Side by side</button></div>
+            <div id="compareView" class="compare-view"><img id="resultImage" class="result-color" alt="AI colorized result"><div id="beforeLayer" class="before-layer"><img id="beforeImage" alt="Original image before colorization"></div><span class="compare-label before-label">ORIGINAL</span><span class="compare-label after-label">COLORIZED</span><div id="compareDivider" class="compare-divider"><span aria-hidden="true">↔</span></div><input id="compareRange" type="range" min="0" max="100" value="50" aria-label="Slide to compare original and colorized images"></div>
+            <div id="sideView" class="side-view" hidden><figure><img id="sideOriginal" alt="Original image"><figcaption>Original</figcaption></figure><figure><img id="sideColor" alt="Colorized result"><figcaption>Colorized by ColorGen AI</figcaption></figure></div>
+            <div class="result-footer"><p>Predicted colors may differ from the original photograph. Grayscale images cannot reveal exact colors.</p><div><a id="downloadButton" class="button button-secondary" download="colorgen-colorized.png">Download image <span aria-hidden="true">↓</span></a><button id="anotherButton" class="button button-dark" type="button">Choose another <span aria-hidden="true">↗</span></button></div></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap footer-content"><a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">✳</span><span>ColorGen <span class="brand-light">AI</span></span></a><p>DDColor-T colorization for the moments worth seeing again.</p><span>AI colorization offers a plausible interpretation, not a recovery of exact original colors.</span></div></footer>
+</body>
+</html>
